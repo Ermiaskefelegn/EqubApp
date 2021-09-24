@@ -1,16 +1,17 @@
+import 'package:flutter/material.dart';
 import 'package:equbapp/Components/constants.dart';
 import 'package:equbapp/Components/money_collected.dart';
 import 'package:equbapp/Components/money_due.dart';
-import 'package:flutter/material.dart';
 
-class TabBarView extends StatefulWidget {
-  const TabBarView({Key? key}) : super(key: key);
+class TabBarPage extends StatefulWidget {
+  const TabBarPage({Key? key, required List<Widget> children})
+      : super(key: key);
 
   @override
-  _TabBarViewState createState() => _TabBarViewState();
+  _TabBarPageState createState() => _TabBarPageState();
 }
 
-class _TabBarViewState extends State<TabBarView> {
+class _TabBarPageState extends State<TabBarPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -57,8 +58,8 @@ class _TabBarViewState extends State<TabBarView> {
           Expanded(
             child: Container(
               height: MediaQuery.of(context).size.height,
-              child: TabBarView(
-                children: [MoneyCollected(), MoneyDue()],
+              child: const TabBarView(
+                children: <Widget>[MoneyCollected(), MoneyDue()],
               ),
             ),
           ),

@@ -36,13 +36,10 @@ class _EqubHomePageState extends State<EqubHomePage> {
           SizedBox(width: kDefaultPaddin / 2)
         ],
       ),
-      body: SingleChildScrollView(
+      body: Container(
+        height: MediaQuery.of(context).size.height,
         child: Column(
-          children: [
-            Row(
-              children: [CircularChart()],
-            )
-          ],
+          children: [CircularChart()],
         ),
       ),
     );
