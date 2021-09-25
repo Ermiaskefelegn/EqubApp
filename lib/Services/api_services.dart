@@ -9,7 +9,8 @@ import 'package:equbapp/Models/due_paymnet_models.dart';
 class ApiServices {
   Future<DuePaymnetModel> getduepaymnetData(context) async {
     late DuePaymnetModel result;
-    var url = Uri.parse("https://jsonplaceholder.typicode.com/posts/1");
+    var url = Uri.parse(
+        "https://610e396448beae001747ba80.mockapi.io/collectedPayments");
     var client = http.Client();
     try {
       final response = await client.get(url);
@@ -35,7 +36,8 @@ class ApiServices {
 
   Future<CollectedMoneyModel> getcollectedmoneyData(context) async {
     late CollectedMoneyModel result;
-    var url = Uri.parse("https://jsonplaceholder.typicode.com/posts/1");
+    var url =
+        Uri.parse("https://610e396448beae001747ba80.mockapi.io/duePayments");
     var client = http.Client();
     try {
       final response = await client.get(url);
