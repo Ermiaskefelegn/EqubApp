@@ -1,29 +1,34 @@
+// To parse this JSON data, do
+//
+//     final duePaymnetModel = duePaymnetModelFromJson(jsonString);
+
 import 'dart:convert';
 
-List<DuePaymnetModel> welcomeFromJson(String str) => List<DuePaymnetModel>.from(
-    json.decode(str).map((x) => DuePaymnetModel.fromJson(x)));
+List<DuePaymnetModel> duePaymnetModelFromJson(String str) =>
+    List<DuePaymnetModel>.from(
+        json.decode(str).map((x) => DuePaymnetModel.fromJson(x)));
 
-String welcomeToJson(List<DuePaymnetModel> data) =>
+String duePaymnetModelToJson(List<DuePaymnetModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class DuePaymnetModel {
   DuePaymnetModel({
-    required this.createdAt,
-    required this.owedAmount,
-    required this.dueDate,
-    required this.name,
-    required this.paidRounds,
-    required this.totalRounds,
-    required this.id,
+    this.createdAt,
+    this.owedAmount,
+    this.dueDate,
+    this.name,
+    this.paidRounds,
+    this.totalRounds,
+    this.id,
   });
 
-  DateTime createdAt;
-  String owedAmount;
-  DateTime dueDate;
-  String name;
-  int paidRounds;
-  int totalRounds;
-  String id;
+  final createdAt;
+  final owedAmount;
+  final dueDate;
+  final name;
+  final paidRounds;
+  final totalRounds;
+  final id;
 
   factory DuePaymnetModel.fromJson(Map<String, dynamic> json) =>
       DuePaymnetModel(

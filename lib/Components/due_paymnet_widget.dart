@@ -1,22 +1,44 @@
 import 'package:equbapp/Components/constants.dart';
+import 'package:equbapp/Models/due_paymnet_models.dart';
 import 'package:flutter/material.dart';
 
-class DuePaymnet extends StatelessWidget {
+class DuePaymnet extends StatefulWidget {
   final Function press;
+  final DuePaymnetModel duePaymnetModel;
+
   const DuePaymnet({
     Key? key,
     required this.press,
+    required this.duePaymnetModel,
   }) : super(key: key);
 
   @override
+  _DuePaymnetState createState() => _DuePaymnetState();
+}
+
+class _DuePaymnetState extends State<DuePaymnet> {
+  int dateCalculate(DateTime from, DateTime to) {
+    from = DateTime(from.year, from.month, from.day);
+    to = DateTime(from.year, from.month, from.day);
+    return (to.difference(from).inHours / 24).round();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final initialdate = DateTime(widget.duePaymnetModel.dueDate);
+    final currentdate = DateTime.now();
+    final difffrence = dateCalculate(currentdate, initialdate);
     return GestureDetector(
       onTap: () {
-        press();
+        widget.press();
       },
       child: Container(
+          height: MediaQuery.of(context).size.height / 4,
+          width: MediaQuery.of(context).size.width / 2,
           decoration: BoxDecoration(
-            color: bgcolor2,
+            border: Border.all(
+              color: bgcolor2,
+            ),
             borderRadius: BorderRadius.circular(16),
           ),
           child: Column(
@@ -24,13 +46,18 @@ class DuePaymnet extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CircleAvatar(
-                child: Image.asset("assets/icons/logo.png"),
-                backgroundColor: bgcolor2,
+                radius: MediaQuery.of(context).size.width / 9,
+                child: Icon(
+                  Icons.monetization_on_outlined,
+                  color: bgcolor,
+                  size: 45,
+                ),
+                backgroundColor: bgcolor,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Text(
-                  "Pay",
+                  widget.duePaymnetModel.name.name,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.black,
@@ -39,22 +66,38 @@ class DuePaymnet extends StatelessWidget {
                 ),
               ),
               Container(
+                padding: EdgeInsets.symmetric(vertical: 1),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Icon(Icons.monetization_on),
                     Text(
-                      "ETB " + "2,000",
+                      "ETB " + "${widget.duePaymnetModel.dueDate}",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.red,
                           fontSize: 16,
                           fontWeight: FontWeight.bold),
                     ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 1),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.monetization_on,
+                      color: Colors.grey,
+                    ),
                     Text(
-                      "3 " + "Days left",
+                      "$difffrence" + "Days left",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          color: Colors.red,
+                          color: Colors.grey,
                           fontSize: 16,
                           fontWeight: FontWeight.bold),
                     )
@@ -62,19 +105,21 @@ class DuePaymnet extends StatelessWidget {
                 ),
               ),
               Container(
-                  padding: EdgeInsets.symmetric(
-                      // horizontal: kDefaultPaddin * 0.5,
-                      vertical: kDefaultPaddin * 0.5),
+                  width: MediaQuery.of(context).size.width / 2.8,
+                  margin: EdgeInsets.symmetric(vertical: kDefaultPaddin * 0.3),
+                  padding: EdgeInsets.symmetric(vertical: kDefaultPaddin * 0.3),
                   decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: Colors.red),
+                    borderRadius: BorderRadius.circular(
+                      20,
+                    ),
                   ),
                   child: Text(
                     "Pay",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.red,
-                        fontSize: 16,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold),
                   )),
             ],

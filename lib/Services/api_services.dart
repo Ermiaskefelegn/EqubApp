@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'package:equbapp/Components/constants.dart';
 import 'package:get/get.dart';
@@ -7,16 +6,17 @@ import 'package:equbapp/Models/collected_money_models.dart';
 import 'package:equbapp/Models/due_paymnet_models.dart';
 
 class ApiServices {
-  Future<DuePaymnetModel> getduepaymnetData(context) async {
-    late DuePaymnetModel result;
-    var url = Uri.parse(
-        "https://610e396448beae001747ba80.mockapi.io/collectedPayments");
-    var client = http.Client();
+  static Future<List<DuePaymnetModel>> getduepaymnetData() async {
+    List<DuePaymnetModel> allduedata = [];
     try {
+      var url =
+          Uri.parse("https://610e396448beae001747ba80.mockapi.io/duePayments");
+
+      var client = http.Client();
       final response = await client.get(url);
       if (response.statusCode == 200) {
-        final item = json.decode(response.body);
-        result = DuePaymnetModel.fromJson(item);
+        allduedata = duePaymnetModelFromJson(response.body);
+        return allduedata;
       } else {
         Get.snackbar("Error", "Data not found",
             snackPosition: SnackPosition.BOTTOM,
@@ -30,20 +30,22 @@ class ApiServices {
       }
     } catch (e) {
       log("e");
+      print(Exception);
+      return <DuePaymnetModel>[];
     }
-    return result;
+    return allduedata;
   }
 
-  Future<CollectedMoneyModel> getcollectedmoneyData(context) async {
-    late CollectedMoneyModel result;
-    var url =
-        Uri.parse("https://610e396448beae001747ba80.mockapi.io/duePayments");
-    var client = http.Client();
+  static Future<List<CollectedMoneyModel>> getcollectedmoneyData() async {
+    List<CollectedMoneyModel> allcollecteddata = [];
     try {
+      var url = Uri.parse(
+          "https://610e396448beae001747ba80.mockapi.io/collectedPayments");
+      var client = http.Client();
       final response = await client.get(url);
       if (response.statusCode == 200) {
-        final item = json.decode(response.body);
-        result = CollectedMoneyModel.fromJson(item);
+        allcollecteddata = collectedMoneyModelFromJson(response.body);
+        return allcollecteddata;
       } else {
         Get.snackbar("Error", "Data not found",
             snackPosition: SnackPosition.BOTTOM,
@@ -57,7 +59,10 @@ class ApiServices {
       }
     } catch (e) {
       log("e");
+      print(Exception);
+      return <CollectedMoneyModel>[];
     }
-    return result;
+
+    return allcollecteddata;
   }
 }

@@ -1,32 +1,31 @@
 import 'package:equbapp/Models/due_paymnet_models.dart';
 import 'package:equbapp/Services/api_services.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class DuePaymnetProvider with ChangeNotifier {
-  late DuePaymnetModel getdata;
-  late DateTime createdAt;
-  late String owedAmount;
-  late DateTime dueDate;
-  late String name;
-  late int paidRounds;
-  late int totalRounds;
-  late String id;
-
+class DuePaymnetProvider extends GetxController {
+  var getdata = <DuePaymnetModel>[].obs;
+  var isloading = true.obs;
   bool loading = false;
 
-  getPostData(context) async {
-    getdata = DuePaymnetModel(
-        createdAt: createdAt,
-        owedAmount: owedAmount,
-        dueDate: dueDate,
-        name: name,
-        paidRounds: paidRounds,
-        totalRounds: totalRounds,
-        id: id);
-    loading = true;
-    getdata = await ApiServices().getduepaymnetData(context);
-    loading = false;
+  @override
+  void onInit() {
+    getDuePaymentData();
+    super.onInit();
+  }
 
-    notifyListeners();
+  getDuePaymentData() async {
+    isloading(true);
+
+    try {
+      var paymnetdata = await ApiServices.getduepaymnetData();
+      // ignore: unnecessary_null_comparison
+      if (paymnetdata != null) {
+        getdata.value = paymnetdata;
+        print(paymnetdata);
+      }
+    } finally {
+      isloading(false);
+    }
   }
 }
